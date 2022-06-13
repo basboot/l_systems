@@ -1,4 +1,6 @@
 # https://en.wikipedia.org/wiki/L-system
+import random
+
 
 class LSystem:
     def __init__(self, alphabet, init, rules):
@@ -22,7 +24,8 @@ class LSystem:
 
             # apply rule to variable
             if character in self.rules:
-                new_state += self.rules[character]
+                rule = self.rules[character]
+                new_state += random.choice(rule)
             # or keep constant as is
             else:
                 new_state.append(character)
