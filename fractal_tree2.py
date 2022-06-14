@@ -1,8 +1,8 @@
 from l_system import LSystem
-import turtle
+
 import time
 
-
+from l_system_animation import LSystemAnimation
 
 if __name__ == '__main__':
 
@@ -20,73 +20,19 @@ if __name__ == '__main__':
         rules={
             '1': [("111", 1)],
             '0': [("1[------------r0k][r0k]++++++++++++r0k", 1),
-                  ("1[------------g0k][g0k]++++++++++++g0k", 1)],
+                  ("1[------------g0k][g0k]++++++++++++g0k", 3)],
             'r': [("", 1)],
             'k': [("", 1)],
             'g': [("", 1)]
         }
     )
 
-
+    fractal_binary_tree_animation = LSystemAnimation(fractal_binary_tree)
 
     for i in range(10):
-        turtle.reset()
-        turtle.speed(0)
-        turtle.hideturtle()
-        turtle.tracer(0, 0)
-        turtle.penup()
-        turtle.sety(-turtle.window_height() // 2 + 20)
-        turtle.pendown()
-        turtle.clear()
-        turtle.left(90) # to mirror like wikipedia example
 
-        # draw first
-        print(f"n={fractal_binary_tree.generation} : {fractal_binary_tree}")
-
-        # use list as a stack
-        stack = []
-
-        g_count = 0
-        r_count = 0
-
-        for character in fractal_binary_tree.state:
-            match character:
-                case 'r':
-                    turtle.pencolor('red')  # leaf
-                    r_count+=1
-                case 'g':
-                    turtle.pencolor('green')  # leaf
-                    g_count+=1
-                case 'k':
-                    turtle.pencolor('black')
-                case '0':
-                    turtle.forward(5) # leaf
-                case '1':
-                    turtle.forward(5)
-                case '[':
-                    stack.append((turtle.position(), turtle.heading()))
-                case '-':
-                    turtle.left(5)
-                case ']':
-                    turtle_setting = stack.pop()
-                    turtle.penup()
-                    turtle.goto(turtle_setting[0])
-                    turtle.setheading(turtle_setting[1])
-                    turtle.pendown()
-                case '+':
-                    turtle.right(5)
-                case '<':
-                    turtle.left(90)
-                    turtle.forward(1)
-                    turtle.right(90)
-                case '>':
-                    turtle.right(90)
-                    turtle.forward(1)
-                    turtle.left(90)
-
-        turtle.update()
+        fractal_binary_tree_animation.draw()
         time.sleep(5)
-        print(f"Green: {g_count} Red: {r_count}")
         fractal_binary_tree.update()
 
 
