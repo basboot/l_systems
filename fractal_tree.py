@@ -13,9 +13,9 @@ if __name__ == '__main__':
     # rules  : (1 → 11), (0 → 1[0]0)
 
     fractal_binary_tree = LSystem(
-        alphabet={'0', '1', '[', ']'},
-        init=['0'],
-        rules={'1': ['1', '1'], '0': ['1', '[', '0', ']', '0']}
+        alphabet="01[]",
+        init="0",
+        rules={'1': [("11", 1)], '0': [("1[0]0", 1)]}
     )
 
     turtle.speed(0)

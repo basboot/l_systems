@@ -12,9 +12,9 @@ import time
 # This produces the famous Cantor's fractal set on a real straight line R.
 
 cantor = LSystem(
-    alphabet={'A', 'B'},
-    init=['A'],
-    rules={'A': ['A', 'B', 'A'], 'B': ['B', 'B', 'B']}
+    alphabet="AB",
+    init="A",
+    rules={'A': [("ABA", 1)], 'B': [("BBB", 1)]}
 )
 
 for i in range(10):

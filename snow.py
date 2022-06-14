@@ -15,15 +15,16 @@ if __name__ == '__main__':
 
 
     fractal_binary_tree = LSystem(
-        alphabet="01[]-+rgk<>",
-        init="0",
+        alphabet={'0', '1', '2', '3', '[', ']', '-', '+', 'r', 'g', 'k', '<', '>'},
+        init=list("[01]+++++++++[2]+++++++++[01]+++++++++[2]+++++++++[01]+++++++++[2]+++++++++[01]+++++++++[2]+++++++++"),
         rules={
-            '1': [("111", 1)],
-            '0': [("1[------------r0k][r0k]++++++++++++r0k", 1),
-                  ("1[------------g0k][g0k]++++++++++++g0k", 1)],
-            'r': [("", 1)],
-            'k': [("", 1)],
-            'g': [("", 1)]
+            '1': [list("11")],
+            '2': [list("131")],
+            '3': [list("21[---------11][+++++++++11]")],
+            '0': [list("01[---------1][+++++++++1]")],
+            'r': [[]],
+            'k': [[]],
+            'g': [[]]
         }
     )
 
@@ -35,7 +36,7 @@ if __name__ == '__main__':
         turtle.hideturtle()
         turtle.tracer(0, 0)
         turtle.penup()
-        turtle.sety(-turtle.window_height() // 2 + 20)
+        # turtle.sety(-turtle.window_height() // 2 + 20)
         turtle.pendown()
         turtle.clear()
         turtle.left(90) # to mirror like wikipedia example
@@ -60,9 +61,9 @@ if __name__ == '__main__':
                 case 'k':
                     turtle.pencolor('black')
                 case '0':
-                    turtle.forward(5) # leaf
+                    turtle.forward(25) # leaf
                 case '1':
-                    turtle.forward(5)
+                    turtle.forward(25)
                 case '[':
                     stack.append((turtle.position(), turtle.heading()))
                 case '-':

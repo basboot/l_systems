@@ -13,9 +13,9 @@ if __name__ == '__main__':
     # rules  : (F → F+F−F−F+F)
 
     koch = LSystem(
-        alphabet={'F', '+', '-'},
-        init=['F'],
-        rules={'F': ['F', '+', 'F', '-', 'F', '-', 'F', '+', 'F']}
+        alphabet="F+-",
+        init="F",
+        rules={'F': [("F+F-F-F+F", 1)]}
     )
 
     turtle.speed(0)

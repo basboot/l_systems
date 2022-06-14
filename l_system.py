@@ -5,13 +5,23 @@ import random
 class LSystem:
     def __init__(self, alphabet, init, rules):
         # set with the alphabet
-        self.alphabet = alphabet
+        self.alphabet = set(alphabet)
         # list with the current state (string)
-        self.state = init
+        self.state = list(init)
         # list with all states
-        self.history = [init]
+        self.history = [list(init)]
         # dictionary with the reproduction rules (character => list of characters)
-        self.rules = rules
+        self.rules = {}
+
+        # rules = { character: list of tuples (rule, weight) }
+        # self.rules = { character: list of rules (larger weight = multiple times same rule) }
+        for character, rule in rules.items():
+            new_rule = []
+            for rule_part in rule:
+                for i in range(rule_part[1]):
+                    new_rule.append(list(rule_part[0]))
+            self.rules[character] = new_rule
+
         self.generation = 0
 
 
