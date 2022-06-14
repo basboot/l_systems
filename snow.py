@@ -5,15 +5,6 @@ import time
 from l_system_animation import LSystemAnimation
 
 if __name__ == '__main__':
-
-    # Example 2: Fractal (binary) tree[edit]
-    # variables : 0, 1
-    # constants: “[”, “]”
-    # axiom  : 0
-    # rules  : (1 → 11), (0 → 1[0]0)
-
-
-
     snow = LSystem(
         alphabet="0F23[]-+rgk<>",
         init="[0F]+++++++++[2]+++++++++[0F]+++++++++[2]+++++++++[0F]+++++++++[2]+++++++++[0F]+++++++++[2]+++++++++",
