@@ -33,14 +33,12 @@ class LSystemAnimation:
                     turtle.pencolor('green')  # leaf
                 case 'k':
                     turtle.pencolor('black')
-                case '0':
-                    turtle.forward(5)  # leaf
-                case '1':
+                case 'F':
                     turtle.forward(5)
                 case '[':
                     stack.append((turtle.position(), turtle.heading()))
                 case '-':
-                    turtle.left(5)
+                    turtle.right(5)
                 case ']':
                     turtle_setting = stack.pop()
                     turtle.penup()
@@ -48,7 +46,7 @@ class LSystemAnimation:
                     turtle.setheading(turtle_setting[1])
                     turtle.pendown()
                 case '+':
-                    turtle.right(5)
+                    turtle.left(5)
                 case '<':
                     turtle.left(90)
                     turtle.forward(1)
