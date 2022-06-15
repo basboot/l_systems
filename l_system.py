@@ -6,10 +6,10 @@ class LSystem:
     def __init__(self, alphabet, init, rules):
         # set with the alphabet
         self.alphabet = set(alphabet)
+        # store init to make a resstart possible
+        self.state_init = list(init)
         # list with the current state (string)
         self.state = list(init)
-        # list with all states
-        self.history = [list(init)]
         # dictionary with the reproduction rules (character => list of characters)
         self.rules = {}
 
@@ -25,23 +25,31 @@ class LSystem:
         self.generation = 0
 
 
-    def update(self):
-        self.generation += 1
+    def update(self, n=None):
+        if n is not None:
+            # n is set, so reset L-System and perform n updates on it
+            self.generation = 0
+            self.state = self.state_init
+        else:
+            # no n, so just perform the next update
+            n = 1
 
-        new_state = []
-        for character in self.state:
-            assert character in self.alphabet, f"Illegal charachter: {character}"
+        for i in range(n):
+            self.generation += 1
 
-            # apply rule to variable
-            if character in self.rules:
-                rule = self.rules[character]
-                new_state += random.choice(rule)
-            # or keep constant as is
-            else:
-                new_state.append(character)
+            new_state = []
+            for character in self.state:
+                assert character in self.alphabet, f"Illegal charachter: {character}"
 
-        self.state = new_state
-        self.history.append(self.state)
+                # apply rule to variable
+                if character in self.rules:
+                    rule = self.rules[character]
+                    new_state += random.choice(rule)
+                # or keep constant as is
+                else:
+                    new_state.append(character)
+
+            self.state = new_state
 
     def __str__(self):
         return ''.join(self.state)
@@ -56,12 +64,14 @@ if __name__ == '__main__':
     # rules  : (A → AB), (B → A)
 
     l = LSystem(
-        alphabet={'A', 'B'},
-        init=['A'],
-        rules={'A': ['A', 'B'], 'B': ['A']}
+        alphabet="AB",
+        init="A",
+        rules={'A': [("AB", 1)], 'B': [("A", 1)]}
     )
     print(f"Algea, init n = 0: {l}")
     for i in range(7):
         l.update()
         print(f"n={l.generation} : {l}")
 
+    l.update(n=6)
+    print(f"n={l.generation} : {l}")
