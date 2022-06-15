@@ -1,3 +1,4 @@
+import random
 import turtle
 
 INITIAL_DRAWING_UNIT = 5    # pixels
@@ -13,7 +14,7 @@ class LSystemAnimation:
         self.startpos = (0, 0)
         self.drawing_unit = INITIAL_DRAWING_UNIT
 
-    def draw(self):
+    def draw(self, rescale=True):
         # init screen (add 10pct as a border)
         turtle.setup(width=self.width * 1.1, height=self.height * 1.1)
 
@@ -23,32 +24,34 @@ class LSystemAnimation:
         # draw in memory first to check boundaries
         min_x, max_x, min_y, max_y = self.drawLSystem()
 
-        # find size used
-        size_x = max_x - min_x + 1  # avoid division by zero when drawing a line
-        size_y = max_y - min_y + 1
+        if rescale:
 
-        # calculate ratio needed to fit
-        ratio_x = self.width / size_x
-        ratio_y = self.height / size_y
+            # find size used
+            size_x = max_x - min_x + 1  # avoid division by zero when drawing a line
+            size_y = max_y - min_y + 1
 
-        # choose only smallest ratio for scaling (we preserve aspect ratio)
-        scaling = ratio_x if ratio_x < ratio_y else ratio_y
+            # calculate ratio needed to fit
+            ratio_x = self.width / size_x
+            ratio_y = self.height / size_y
 
-        # change unit to scale drawing
-        self.drawing_unit *= scaling
+            # choose only smallest ratio for scaling (we preserve aspect ratio)
+            scaling = ratio_x if ratio_x < ratio_y else ratio_y
 
-        # find new origin
-        delta_x = (min_x + max_x) / 2
-        delta_y = (min_y + max_y) / 2
+            # change unit to scale drawing
+            self.drawing_unit *= scaling
 
-        # shift drawing in opposite direction and scale
-        self.startpos = (
-            -delta_x * scaling,
-            -delta_y * scaling
-        )
+            # find new origin
+            delta_x = (min_x + max_x) / 2
+            delta_y = (min_y + max_y) / 2
 
-        # redraw after scaling
-        self.drawLSystem()
+            # shift drawing in opposite direction and scale
+            self.startpos = (
+                -delta_x * scaling,
+                -delta_y * scaling
+            )
+
+            # redraw after scaling
+            self.drawLSystem()
 
         # show drawing
         turtle.update()
@@ -85,14 +88,38 @@ class LSystemAnimation:
         # use list as a stack
         stack = []
 
+        turtle.colormode(255)
+        current_color = (0, 0, 0)
+        turtle.pencolor(current_color)
+
         for character in self.l_system.state:
             match character:
+                case 's':
+                    # shift color
+                    # TODO: also use background
+                    r, g, b = current_color
+
+                    r = max(0, min(r + int((random.random() - 0.5) * 255), 255))
+                    g = max(0, min(g + int((random.random() - 0.5) * 255), 255))
+                    b = max(0, min(b + int((random.random() - 0.5) * 255), 255))
+
+                    current_color = (r, g, b)
+
+                    turtle.pencolor(current_color)
+                    turtle.fillcolor(current_color)
+
                 case 'r':
-                    turtle.pencolor('red')  # leaf
+                    current_color = (255, 0, 0)
+                    turtle.pencolor(current_color)  # leaf
+                    turtle.fillcolor(current_color)
                 case 'g':
-                    turtle.pencolor('green')  # leaf
+                    current_color = (0, 255, 0)
+                    turtle.pencolor(current_color)  # leaf
+                    turtle.fillcolor(current_color)
                 case 'k':
-                    turtle.pencolor('black')
+                    current_color = (0, 0, 0)
+                    turtle.pencolor(current_color)
+                    turtle.fillcolor(current_color)
                 case 'F':
                     turtle.forward(self.drawing_unit)
                 case '[':
@@ -115,6 +142,10 @@ class LSystemAnimation:
                     turtle.right(90)
                     turtle.forward(1)
                     turtle.left(90)
+                case '{':
+                    turtle.begin_fill()
+                case '}':
+                    turtle.end_fill()
 
             # update minmax
             posxy = turtle.position()
