@@ -39,7 +39,7 @@ class LSystem:
 
             new_state = []
             for character in self.state:
-                assert character in self.alphabet, "Illegal character: {character}"
+                assert character in self.alphabet, "Illegal character: " + character
 
                 # apply rule to variable
                 if character in self.rules:
