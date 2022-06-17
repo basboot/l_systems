@@ -6,7 +6,7 @@ ROTATION_UNIT = 5   # degrees
 
 
 class LSystemAnimation:
-    def __init__(self, l_system, width=1000, height=500):
+    def __init__(self, l_system, width=1000, height=700):
         # warning about unknown characters
         self.l_system = l_system
         self.width = width
@@ -123,7 +123,7 @@ class LSystemAnimation:
                 case 'F':
                     turtle.forward(self.drawing_unit)
                 case '[':
-                    stack.append((turtle.position(), turtle.heading()))
+                    stack.append((turtle.position(), turtle.heading(), current_color))
                 case '-':
                     turtle.right(ROTATION_UNIT)
                 case ']':
@@ -131,6 +131,8 @@ class LSystemAnimation:
                     turtle.penup()
                     turtle.goto(turtle_setting[0])
                     turtle.setheading(turtle_setting[1])
+                    current_color = turtle_setting[2]
+                    turtle.pencolor(current_color)
                     turtle.pendown()
                 case '+':
                     turtle.left(ROTATION_UNIT)
