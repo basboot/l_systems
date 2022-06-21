@@ -116,6 +116,10 @@ class LSystemAnimation:
                     current_color = (0, 255, 0)
                     turtle.pencolor(current_color)  # leaf
                     turtle.fillcolor(current_color)
+                case 'b':
+                    current_color = (0, 0, 255)
+                    turtle.pencolor(current_color)  # leaf
+                    turtle.fillcolor(current_color)
                 case 'k':
                     current_color = (0, 0, 0)
                     turtle.pencolor(current_color)
